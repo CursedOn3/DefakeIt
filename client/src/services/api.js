@@ -1,8 +1,11 @@
 import axios from 'axios';
 
+// API base URL - use environment variable in production
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE_URL,
   timeout: 60000, // 60 seconds for model processing
   withCredentials: true
 });
