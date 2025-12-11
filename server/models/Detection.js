@@ -35,7 +35,7 @@ const DetectionSchema = new mongoose.Schema({
     },
     storageType: {
         type: String,
-        enum: ['local', 'r2'],
+        enum: ['local', 'r2', 'processed'],
         default: 'local'
     },
     imageSize: {
@@ -48,6 +48,19 @@ const DetectionSchema = new mongoose.Schema({
         type: String,
         default: 'deepfake_detector'
     },
+    // Video-specific fields
+    isVideo: {
+        type: Boolean,
+        default: false
+    },
+    videoMetadata: {
+        totalFrames: Number,
+        analyzedFrames: Number,
+        fakeFrames: Number,
+        realFrames: Number,
+        durationSeconds: Number,
+        fps: Number
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -57,5 +70,6 @@ const DetectionSchema = new mongoose.Schema({
 // Index for faster queries
 DetectionSchema.index({ createdAt: -1 });
 DetectionSchema.index({ prediction: 1 });
+DetectionSchema.index({ isVideo: 1 });
 
 module.exports = mongoose.model('Detection', DetectionSchema);

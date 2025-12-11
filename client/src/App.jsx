@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import Landing from './pages/Landing';
 import Detect from './pages/Detect';
+import VideoDetect from './pages/VideoDetect';
 import History from './pages/History';
 import About from './pages/About';
 import Result from './pages/Result';
@@ -30,6 +31,11 @@ function AppContent() {
           <Route path="/detect" element={
             <ProtectedRoute>
               <Detect />
+            </ProtectedRoute>
+          } />
+          <Route path="/detect-video" element={
+            <ProtectedRoute>
+              <VideoDetect />
             </ProtectedRoute>
           } />
           <Route path="/result" element={

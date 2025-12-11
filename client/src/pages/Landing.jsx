@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiShield, FiUpload, FiCpu, FiCheckCircle, FiAlertTriangle, FiArrowRight, FiGithub, FiZap, FiLock, FiBarChart2 } from 'react-icons/fi';
+import { FiShield, FiUpload, FiCpu, FiCheckCircle, FiAlertTriangle, FiArrowRight, FiGithub, FiZap, FiLock, FiBarChart2, FiVideo } from 'react-icons/fi';
 
 function Landing() {
   return (
@@ -34,14 +34,24 @@ function Landing() {
                 className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-700 font-semibold rounded-xl hover:bg-primary-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 <FiUpload className="mr-2" />
-                Start Detection
+                Detect Image
                 <FiArrowRight className="ml-2" />
               </Link>
+              <Link
+                to="/detect-video"
+                className="inline-flex items-center justify-center px-8 py-4 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                <FiVideo className="mr-2" />
+                Detect Video
+                <FiArrowRight className="ml-2" />
+              </Link>
+            </div>
+            <div className="mt-4">
               <a
                 href="https://github.com/CursedOn3/DefakeIt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 bg-primary-800/50 text-white font-semibold rounded-xl hover:bg-primary-800 transition-all duration-300 border border-primary-400/30"
+                className="inline-flex items-center justify-center px-6 py-3 text-primary-200 hover:text-white transition-all duration-300"
               >
                 <FiGithub className="mr-2" />
                 View on GitHub

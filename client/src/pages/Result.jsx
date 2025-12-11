@@ -1,10 +1,10 @@
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { FiAlertTriangle, FiCheckCircle, FiClock, FiPercent, FiArrowLeft, FiHome } from 'react-icons/fi';
+import { FiAlertTriangle, FiCheckCircle, FiClock, FiPercent, FiArrowLeft, FiHome, FiVideo, FiImage, FiFilm } from 'react-icons/fi';
 
 function Result() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { result, imageUrl } = location.state || {};
+  const { result, imageUrl, videoUrl, isVideo } = location.state || {};
 
   // Redirect to home if no result data
   if (!result) {
@@ -17,7 +17,7 @@ function Result() {
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">No Result Found</h2>
             <p className="text-gray-600 mb-8">
-              Please upload an image first to see detection results.
+              Please upload an image or video first to see detection results.
             </p>
             <Link to="/" className="btn btn-primary">
               <FiHome className="mr-2" />
@@ -56,27 +56,68 @@ function Result() {
               )}
             </div>
             <h1 className="text-4xl font-bold mb-2">
-              {isFake ? '⚠️ DEEPFAKE DETECTED!' : '✅ AUTHENTIC IMAGE'}
+              {isFake ? '⚠️ DEEPFAKE DETECTED!' : '✅ AUTHENTIC ' + (isVideo ? 'VIDEO' : 'IMAGE')}
             </h1>
             <p className="text-xl text-white/90">
               {isFake
-                ? 'This image appears to be manipulated or AI-generated'
-                : 'This image appears to be genuine and unaltered'}
+                ? `This ${isVideo ? 'video' : 'image'} appears to be manipulated or AI-generated`
+                : `This ${isVideo ? 'video' : 'image'} appears to be genuine and unaltered`}
             </p>
           </div>
 
           {/* Content */}
           <div className="bg-white p-8">
-            {/* Image Preview */}
-            {imageUrl && (
+            {/* Media Preview */}
+            {isVideo && videoUrl ? (
               <div className="mb-8">
-                <h3 className="text-lg font-semibold text-gray-700 mb-4">Analyzed Image</h3>
+                <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                  <FiVideo className="mr-2" /> Analyzed Video
+                </h3>
+                <div className="bg-gray-100 rounded-xl p-4">
+                  <video
+                    src={videoUrl}
+                    controls
+                    className="max-h-80 mx-auto rounded-lg shadow-md"
+                  />
+                </div>
+              </div>
+            ) : imageUrl && (
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                  <FiImage className="mr-2" /> Analyzed Image
+                </h3>
                 <div className="bg-gray-100 rounded-xl p-4">
                   <img
                     src={imageUrl}
                     alt="Analyzed"
                     className="max-h-80 mx-auto rounded-lg shadow-md"
                   />
+                </div>
+              </div>
+            )}
+
+            {/* Video Stats */}
+            {isVideo && (
+              <div className="grid md:grid-cols-4 gap-4 mb-8">
+                <div className="bg-purple-50 rounded-xl p-4 text-center">
+                  <FiFilm className="text-2xl text-purple-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-gray-800">{result.totalFrames || 0}</p>
+                  <p className="text-sm text-gray-500">Total Frames</p>
+                </div>
+                <div className="bg-blue-50 rounded-xl p-4 text-center">
+                  <FiImage className="text-2xl text-blue-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-gray-800">{result.analyzedFrames || 0}</p>
+                  <p className="text-sm text-gray-500">Analyzed</p>
+                </div>
+                <div className="bg-red-50 rounded-xl p-4 text-center">
+                  <FiAlertTriangle className="text-2xl text-red-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-red-600">{result.fakeFrames || 0}</p>
+                  <p className="text-sm text-gray-500">Fake Frames</p>
+                </div>
+                <div className="bg-green-50 rounded-xl p-4 text-center">
+                  <FiCheckCircle className="text-2xl text-green-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-green-600">{result.realFrames || 0}</p>
+                  <p className="text-sm text-gray-500">Real Frames</p>
                 </div>
               </div>
             )}
@@ -144,10 +185,10 @@ function Result() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate(isVideo ? '/detect-video' : '/detect')}
                 className="flex-1 btn btn-primary"
               >
-                Analyze Another Image
+                Analyze Another {isVideo ? 'Video' : 'Image'}
               </button>
               <Link to="/history" className="flex-1 btn btn-secondary text-center">
                 View History
