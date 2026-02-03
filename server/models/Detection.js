@@ -41,6 +41,23 @@ const DetectionSchema = new mongoose.Schema({
     imageSize: {
         type: Number
     },
+    // Audio-specific fields
+    audioPath: {
+        type: String
+    },
+    audioUrl: {
+        type: String  // Public URL from R2 for audio
+    },
+    audioSize: {
+        type: Number
+    },
+    isAudio: {
+        type: Boolean,
+        default: false
+    },
+    audioMetadata: {
+        thresholdUsed: Number
+    },
     processingTime: {
         type: Number // in milliseconds
     },
@@ -71,5 +88,6 @@ const DetectionSchema = new mongoose.Schema({
 DetectionSchema.index({ createdAt: -1 });
 DetectionSchema.index({ prediction: 1 });
 DetectionSchema.index({ isVideo: 1 });
+DetectionSchema.index({ isAudio: 1 });
 
 module.exports = mongoose.model('Detection', DetectionSchema);

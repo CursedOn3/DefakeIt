@@ -1,10 +1,10 @@
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { FiAlertTriangle, FiCheckCircle, FiClock, FiPercent, FiArrowLeft, FiHome, FiVideo, FiImage, FiFilm } from 'react-icons/fi';
+import { FiAlertTriangle, FiCheckCircle, FiClock, FiPercent, FiArrowLeft, FiHome, FiVideo, FiImage, FiFilm, FiMusic } from 'react-icons/fi';
 
 function Result() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { result, imageUrl, videoUrl, isVideo } = location.state || {};
+  const { result, imageUrl, videoUrl, audioUrl, isVideo, isAudio } = location.state || {};
 
   // Redirect to home if no result data
   if (!result) {
@@ -17,7 +17,7 @@ function Result() {
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">No Result Found</h2>
             <p className="text-gray-600 mb-8">
-              Please upload an image or video first to see detection results.
+              Please upload an image, video, or audio first to see detection results.
             </p>
             <Link to="/" className="btn btn-primary">
               <FiHome className="mr-2" />
@@ -31,6 +31,8 @@ function Result() {
 
   const isFake = result.isFake;
   const confidence = result.confidence || 0;
+  
+  const mediaType = isAudio ? 'AUDIO' : isVideo ? 'VIDEO' : 'IMAGE';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 py-12 px-4">
@@ -56,19 +58,34 @@ function Result() {
               )}
             </div>
             <h1 className="text-4xl font-bold mb-2">
-              {isFake ? '⚠️ DEEPFAKE DETECTED!' : '✅ AUTHENTIC ' + (isVideo ? 'VIDEO' : 'IMAGE')}
+              {isFake ? '⚠️ DEEPFAKE DETECTED!' : `✅ AUTHENTIC ${mediaType}`}
             </h1>
             <p className="text-xl text-white/90">
               {isFake
-                ? `This ${isVideo ? 'video' : 'image'} appears to be manipulated or AI-generated`
-                : `This ${isVideo ? 'video' : 'image'} appears to be genuine and unaltered`}
+                ? `This ${mediaType.toLowerCase()} appears to be manipulated or AI-generated`
+                : `This ${mediaType.toLowerCase()} appears to be genuine and unaltered`}
             </p>
           </div>
 
           {/* Content */}
           <div className="bg-white p-8">
             {/* Media Preview */}
-            {isVideo && videoUrl ? (
+            {isAudio && audioUrl ? (
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                  <FiMusic className="mr-2" /> Analyzed Audio
+                </h3>
+                <div className="bg-purple-50 rounded-xl p-8">
+                  <div className="flex items-center justify-center mb-4">
+                    <FiMusic className="text-6xl text-purple-600" />
+                  </div>
+                  <audio controls className="w-full">
+                    <source src={audioUrl} />
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              </div>
+            ) : isVideo && videoUrl ? (
               <div className="mb-8">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center">
                   <FiVideo className="mr-2" /> Analyzed Video
@@ -185,10 +202,10 @@ function Result() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <button
-                onClick={() => navigate(isVideo ? '/detect-video' : '/detect')}
+                onClick={() => navigate(isAudio ? '/detect-audio' : isVideo ? '/detect-video' : '/detect')}
                 className="flex-1 btn btn-primary"
               >
-                Analyze Another {isVideo ? 'Video' : 'Image'}
+                Analyze Another {mediaType}
               </button>
               <Link to="/history" className="flex-1 btn btn-secondary text-center">
                 View History

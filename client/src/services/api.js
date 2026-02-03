@@ -113,4 +113,30 @@ export const getStats = async () => {
   }
 };
 
+// Upload and detect audio
+export const detectAudio = async (file, onProgress) => {
+  const formData = new FormData();
+  formData.append('audio', file);
+
+  try {
+    const response = await api.post('/detect/audio', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progressEvent) => {
+        if (onProgress) {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress(percentCompleted);
+        }
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Audio detection error:', error);
+    throw error.response?.data || { error: 'Failed to analyze audio' };
+  }
+};
+
 export default api;

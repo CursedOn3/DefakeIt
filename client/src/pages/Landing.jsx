@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiShield, FiUpload, FiCpu, FiCheckCircle, FiAlertTriangle, FiArrowRight, FiGithub, FiZap, FiLock, FiBarChart2, FiVideo } from 'react-icons/fi';
+import { FiShield, FiUpload, FiCpu, FiCheckCircle, FiAlertTriangle, FiArrowRight, FiGithub, FiZap, FiLock, FiBarChart2, FiVideo, FiMusic } from 'react-icons/fi';
 
 function Landing() {
   return (
@@ -25,8 +25,8 @@ function Landing() {
               <span className="block text-primary-200">AI-Powered Precision</span>
             </h1>
             <p className="text-xl text-primary-100 max-w-2xl mx-auto mb-10">
-              Protect yourself from manipulated media. Our advanced deep learning model 
-              analyzes images in seconds to detect AI-generated or altered content.
+              Protect yourself from manipulated media. Our advanced deep learning models 
+              analyze images, videos, and audio in seconds to detect AI-generated or altered content.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -43,6 +43,14 @@ function Landing() {
               >
                 <FiVideo className="mr-2" />
                 Detect Video
+                <FiArrowRight className="ml-2" />
+              </Link>
+              <Link
+                to="/detect-audio"
+                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                <FiMusic className="mr-2" />
+                Detect Audio
                 <FiArrowRight className="ml-2" />
               </Link>
             </div>

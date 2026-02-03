@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Landing from './pages/Landing';
 import Detect from './pages/Detect';
 import VideoDetect from './pages/VideoDetect';
+import AudioDetect from './pages/AudioDetect';
 import History from './pages/History';
 import About from './pages/About';
 import Result from './pages/Result';
@@ -36,6 +37,11 @@ function AppContent() {
           <Route path="/detect-video" element={
             <ProtectedRoute>
               <VideoDetect />
+            </ProtectedRoute>
+          } />
+          <Route path="/detect-audio" element={
+            <ProtectedRoute>
+              <AudioDetect />
             </ProtectedRoute>
           } />
           <Route path="/result" element={

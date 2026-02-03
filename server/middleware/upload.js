@@ -46,6 +46,19 @@ const videoFilter = (req, file, cb) => {
     }
 };
 
+// File filter - only allow audio files
+const audioFilter = (req, file, cb) => {
+    const allowedTypes = ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/x-wav', 'audio/wave', 'audio/ogg', 'audio/flac', 'audio/m4a'];
+    const allowedExtensions = ['.mp3', '.wav', '.ogg', '.flac', '.m4a', '.wma', '.aac'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    
+    if (allowedTypes.includes(file.mimetype) || allowedExtensions.includes(ext)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Invalid file type. Only MP3, WAV, OGG, FLAC, M4A, and AAC audio files are allowed.'), false);
+    }
+};
+
 // Configure multer for images
 const upload = multer({
     storage: storage,
@@ -64,4 +77,13 @@ const uploadVideo = multer({
     }
 });
 
-module.exports = { upload, uploadVideo };
+// Configure multer for audio files
+const uploadAudio = multer({
+    storage: storage,
+    fileFilter: audioFilter,
+    limits: {
+        fileSize: parseInt(process.env.MAX_AUDIO_SIZE) || 20 * 1024 * 1024 // 20MB default
+    }
+});
+
+module.exports = { upload, uploadVideo, uploadAudio };

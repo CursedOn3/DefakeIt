@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiShield, FiHome, FiClock, FiInfo, FiSearch, FiLogIn, FiLogOut, FiUser, FiVideo } from 'react-icons/fi';
+import { FiShield, FiHome, FiClock, FiInfo, FiSearch, FiLogIn, FiLogOut, FiUser, FiVideo, FiMusic } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
@@ -13,6 +13,7 @@ function Navbar() {
     { path: '/', label: 'Home', icon: FiHome },
     { path: '/detect', label: 'Image', icon: FiSearch },
     { path: '/detect-video', label: 'Video', icon: FiVideo },
+    { path: '/detect-audio', label: 'Audio', icon: FiMusic },
     { path: '/history', label: 'History', icon: FiClock },
     { path: '/about', label: 'About', icon: FiInfo },
   ];
